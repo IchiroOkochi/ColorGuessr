@@ -535,26 +535,72 @@
             }
 
 
+            /* Better responsiveness for very small screens */
             @media (max-width: 480px) {
+              .waviy {
+                font-size: 28px;
+                margin-bottom: 10px;
+              }
+
+              .waviy span {
+                font-size: 28px;
+              }
+
+              .menu {
+                margin: 10px 0;
+              }
+
+              .menu p {
+                font-size: 16px;
+              }
+
+              .buttons button {
+                font-size: 14px;
+                padding: 10px 20px;
+                margin: 5px 0;
+                width: 90%;
+              }
+
+              .credits {
+                font-size: 12px;
+                bottom: 5px;
+              }
+
+              #highScore {
+                font-size: 20px;
+                margin-bottom: 10px;
+              }
+
+              .slider-container {
+                width: 95%;
+                margin: 10px auto;
+              }
+
               .slider-label {
                 font-size: 16px;
               }
 
-              .slider-container {
-                margin: 10px auto;
+              #info,
+              #scoreDisplay,
+              #colorInfo {
+                font-size: 16px;
               }
 
-              .buttons {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
+              .tutorial-container {
+                width: 90%;
+                padding: 15px;
               }
 
-              .buttons button {
-                width: 80%;
-                margin: 8px 0;
+              .tutorial-step h3 {
+                font-size: 16px;
+              }
+
+              .tutorial-step p,
+              .tutorial-step ul {
+                font-size: 14px;
               }
             }
+
 
             
            
@@ -851,3 +897,5 @@
           updateHighScoreDisplay();
         };
   </script>
+</body>
+</html>
