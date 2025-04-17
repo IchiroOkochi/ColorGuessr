@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Color Guessing Game</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@700&display=swap" rel="stylesheet">
@@ -492,7 +493,7 @@
               }
 
               .waviy span {
-                font-size: 40px;
+                font-size: 25vw;
               }
 
               .image-text {
@@ -543,7 +544,7 @@
               }
 
               .waviy span {
-                font-size: 28px;
+                font-size: 25px;
               }
 
               .menu {
@@ -602,6 +603,35 @@
             }
 
 
+            .title-line {
+              display: flex;
+              justify-content: center;
+              width: 100%;
+              flex-wrap: nowrap;
+            }
+
+            @media (max-width: 480px) {
+              .waviy {
+                flex-direction: column;
+                align-items: center;
+              }
+
+              .title-line {
+                justify-content: center;
+              }
+            }
+
+            .space-desktop {
+              display: inline-block;
+              width: 20px;
+            }
+
+            @media (max-width: 480px) {
+              .space-desktop {
+                display: none;
+              }
+            }
+
             
            
   </style>
@@ -633,19 +663,24 @@
 
   <div id="menu" class="wrapper">
     <div class="waviy">
+      <div class="title-line">
         <span style="--i:1">C</span>
         <span style="--i:2">O</span>
         <span style="--i:3">L</span>
         <span style="--i:4">O</span>
         <span style="--i:5">R</span>
-        <span style="--i:6">&nbsp;</span>
-        <span style="--i:7">G</span>
-        <span style="--i:8">U</span>
-        <span style="--i:9">E</span>
-        <span style="--i:10">S</span>
-        <span style="--i:11">S</span>
-        <span style="--i:12">R</span>
+        <span class="space-desktop">&nbsp;</span>
       </div>
+      <div class="title-line">
+        <span style="--i:6">G</span>
+        <span style="--i:7">U</span>
+        <span style="--i:8">E</span>
+        <span style="--i:9">S</span>
+        <span style="--i:10">S</span>
+        <span style="--i:11">R</span>
+      </div>
+    </div>
+    
       
 
     <div class="menu">
