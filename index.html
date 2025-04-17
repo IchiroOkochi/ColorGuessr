@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Color Guessing Game</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@700&display=swap" rel="stylesheet">
+
+  <!-- THIS IS THE CSS STYLER -->
+  <style>
+        body {
+          font-family: 'Comic Sans MS', cursive, sans-serif;
+          text-align: center;
+          margin-top: 50px;
+          transition: background-color 0.5s;
+        }
+        
+        #info,
+        #scoreDisplay,
+        #colorInfo {
+          font-size: 24px;
+          font-weight: bold;
+          margin-bottom: 20px;
+          color: white;
+          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+        }
+        
+        button {
+          font-size: 20px;
+          padding: 10px;
+          margin: 10px;
+          font-weight: bold;
+        }
+        
+        .slider-container {
+          margin: 15px auto;
+          width: 300px;
+          padding: 0;
+        }
+        
+        .slider-label {
+          display: block;
+          text-align: left;
+          margin-top: 10px;
+          font-size: 20px;
+          color: white;
+          text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+        
+        #sliderR {
+          color: red;
+        }
+        
+        #sliderG {
+          color: green;
+        }
+        
+        #sliderB {
+          color: blue;
+        }
+        
+        .menu,
+        .credits {
+          margin: 20px;
+          font-size: 18px;
+          color: white;
+          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+        }
+        
+        .credits {
+          position: absolute;
+          bottom: 20px;
+          left: 50%;
+          transform: translateX(-50%);
+          text-align: center;
+          font-size: 18px;
+        }
+        
+        .hidden {
+          display: none;
+        }
+        
+        .button-85 {
+          padding: 0.6em 2em;
+          border: none;
+          outline: none;
+          color: rgb(0, 0, 0);
+          background: rgb(255, 255, 255);
+          cursor: pointer;
+          position: relative;
+          z-index: 0;
+          border-radius: 10px;
+          user-select: none;
+          -webkit-user-select: none;
+          touch-action: manipulation;
+        }
+        
+        .button-85:before {
+          content: "";
+          background: linear-gradient(45deg,
+              #ff0000,
+              #ff7300,
+              #fffb00,
+              #48ff00,
+              #00ffd5,
+              #002bff,
+              #7a00ff,
+              #ff00c8,
+              #ff0000);
+          position: absolute;
+          top: -2px;
+          left: -2px;
+          background-size: 400%;
+          z-index: -1;
+          filter: blur(5px);
+          -webkit-filter: blur(5px);
+          width: calc(100% + 4px);
+          height: calc(100% + 4px);
+          animation: glowing-button-85 20s linear infinite;
+          transition: opacity 0.3s ease-in-out;
+          border-radius: 10px;
+        }
+        
+        @keyframes glowing-button-85 {
+          0% {
+            background-position: 0 0;
+          }
+        
+          50% {
+            background-position: 400% 0;
+          }
+        
+          100% {
+            background-position: 0 0;
+          }
+        }
+        
+        .button-85:after {
+          z-index: -1;
+          content: "";
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          background: rgb(10, 10, 10, 0);
+          left: 0;
+          top: 0;
+          border-radius: 10px;
+        }
+        
+        .wrapper {
+          width: 100%;
+          left: 0;
+          right: 0;
+          top: 0;
+          bottom: 0;
+          position: absolute;
+          transition: background-color 0.5s;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          height: 100%;
+          min-height: 100vh;
+          background: linear-gradient(124deg, #ff2400, #e81d1d, #e8b71d, #e3e81d, #1de840, #1ddde8, #2b1de8, #dd00f3, #dd00f3);
+          background-size: 1800% 1800%;
+          animation: rainbow 18s ease infinite;
+        }
+        
+        @keyframes rainbow {
+          0% {
+            background-position: 0% 50%;
+          }
+        
+          50% {
+            background-position: 100% 50%;
+          }
+        
+          100% {
+            background-position: 0% 50%;
+          }
+        }
+        
+        .title {
+          margin-bottom: 20px;
+        }
+        
+        .buttons button {
+          margin: 10px;
+        }
+        
+        .image-text {
+          font-size: 80px;
+          /* Increased font size */
+          font-weight: bold;
+          color: transparent;
+          background-image: url('https://t.pimg.jp/015/856/806/1/15856806.jpg');
+          background-clip: text;
+          -webkit-background-clip: text;
+          background-size: cover;
+          display: inline-block;
+          animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+          0% {
+            transform: translateY(0);
+          }
+        
+          50% {
+            transform: translateY(-10px);
+          }
+        
+          100% {
+            transform: translateY(0);
+          }
+        }
+        
+        #backToMenuButton {
+          border: none;
+          border-radius: 20px;
+          background: linear-gradient(32deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4);
+          transition: all 1.5s ease;
+          font-family: 'Ropa Sans', sans-serif;
+          font-weight: bold;
+          letter-spacing: 0.05rem;
+          padding: 0;
+        }
+        
+        #backToMenuButton {
+          display: inline-block;
+          padding: 15px 35px;
+          font-size: 17px;
+          border-radius: 20px;
+          background: #ffffff10;
+          backdrop-filter: blur(20px);
+          transition: 0.4s ease-in-out;
+          transition-property: color;
+          height: 100%;
+          width: 100%;
+        }
+        
+        #backToMenuButton:hover {
+          backdrop-filter: blur(0px);
+          color: #ffffff;
+        }
+        
+        .score-container {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        
+        .score1 {
+          display: inline-block;
+          overflow: hidden;
+          white-space: nowrap;
+        }
+        
+        .score1:first-of-type {
+          opacity: 0;
+          animation: showup 7s 1 forwards;
+        }
+        
+        .score1:last-of-type {
+          width: 0;
+          animation: reveal 7s 1 forwards;
+        }
+        
+        .score1:last-of-type span {
+          margin-left: -100%;
+          animation: slidein 7s 1 forwards;
+        }
+        
+        @keyframes showup {
+          0% {
+            opacity: 0;
+          }
+        
+          20% {
+            opacity: 1;
+          }
+        
+          80% {
+            opacity: 1;
+          }
+        }
+        
+        @keyframes slidein {
+          0% {
+            margin-left: -100%;
+          }
+        
+          20% {
+            margin-left: -100%;
+          }
+        
+          35% {
+            margin-left: 0;
+          }
+        
+          100% {
+            margin-left: 0;
+          }
+        }
+        
+        @keyframes reveal {
+          0% {
+            opacity: 0;
+            width: 0;
+          }
+        
+          20% {
+            opacity: 1;
+            width: 0;
+          }
+        
+          30% {
+            width: auto;
+          }
+        
+          80% {
+            opacity: 1;
+          }
+        
+          100% {
+            width: auto;
+          }
+        }
+        
+        .credits {
+          position: absolute;
+          bottom: 20px;
+          left: 50%;
+          transform: translateX(-50%);
+          text-align: center;
+          font-size: 18px;
+        }
+        
+        #highScore {
+          font-size: 36px;
+          font-weight: bold;
+          color: white;
+          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+          margin-bottom: 20px;
+        }
+        
+        #tutorial {
+          display: none;
+          background-color: rgba(0, 0, 0, 0.9);
+          color: white;
+          padding: 20px;
+          border-radius: 10px;
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          z-index: 1000;
+          text-align: center;
+        }
+        
+        #tutorial h2 {
+          margin-bottom: 20px;
+        }
+        
+        #tutorial p {
+          margin-bottom: 10px;
+          font-size: 18px;
+        }
+        
+        #tutorial button {
+          margin-top: 20px;
+        }
+
+        /* For the text animation */
+        .waviy {
+            position: relative;
+            font-size: 70px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            -webkit-box-reflect: below -20px linear-gradient(transparent, rgba(0, 0, 0, 0.2));
+        }
+
+
+            .waviy span {
+                font-family: 'Fredoka', sans-serif;
+                position: relative;
+                display: inline-block;
+                text-transform: uppercase;
+                font-weight: 700;
+                font-size: 70px;
+                animation: waviy 4s infinite ease-in-out; /* slower and smoother bounce */
+                animation-delay: calc(0.15s * var(--i));
+                background-image: url('https://t.pimg.jp/015/856/806/1/15856806.jpg');
+                background-size: cover;
+                background-position: center;
+                background-clip: text;
+                -webkit-background-clip: text;
+                color: transparent;
+                -webkit-text-fill-color: transparent;
+            }
+
+
+
+
+            @keyframes waviy {
+            0%, 40%, 100% {
+                transform: translateY(0);
+            }
+
+            20% {
+                transform: translateY(-20px);
+            }
+            }
+
+
+            /* For Tutorial Part */
+            .tutorial-container {
+              background: rgba(0, 0, 0, 0.85);
+              color: #fff;
+              padding: 30px;
+              border-radius: 20px;
+              position: fixed;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+              z-index: 2000;
+              text-align: center;
+              width: 500px;
+              box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+              animation: fadeIn 0.8s ease;
+            }
+
+            .tutorial-step {
+              margin: 15px 0;
+            }
+
+            .tutorial-step h3 {
+              margin-bott
+
+            
+            .tutorial-step p,
+            .tutorial-step ul {
+              font-size: 18px;
+              line-height: 1.6;
+            }
+
+            .tutorial-step ul {
+              text-align: left;
+              display: inline-block;
+            }
+
+            @keyframes fadeIn {
+              0% { opacity: 0; transform: translate(-50%, -40%); }
+              100% { opacity: 1; transform: translate(-50%, -50%); }
+            }
+
+            #sliderR {
+              accent-color: red;
+            }
+
+            #sliderG {
+              accent-color: green;
+            }
+
+            #sliderB {
+              accent-color: blue;
+            }
+
+
+
+
+
+
+
+
+            /* For Mobile Friendly Tweaks */
+            /* Mobile-friendly tweaks */
+            @media (max-width: 768px) {
+              .slider-container {
+                width: 90%;
+              }
+
+              .tutorial-container {
+                width: 90%;
+                padding: 20px;
+              }
+
+              .waviy {
+                font-size: 40px;
+                flex-wrap: wrap;
+              }
+
+              .waviy span {
+                font-size: 40px;
+              }
+
+              .image-text {
+                font-size: 50px;
+              }
+
+              .tutorial-step h3 {
+                font-size: 18px;
+              }
+
+              .tutorial-step p,
+              .tutorial-step ul {
+                font-size: 16px;
+              }
+
+              .button-85 {
+                font-size: 16px;
+                padding: 10px 20px;
+              }
+
+              #backToMenuButton {
+                padding: 10px 20px;
+                font-size: 16px;
+              }
+
+              #highScore {
+                font-size: 24px;
+              }
+
+              #info,
+              #scoreDisplay,
+              #colorInfo {
+                font-size: 18px;
+              }
+
+              .credits {
+                font-size: 14px;
+                bottom: 10px;
+              }
+            }
+
+
+            @media (max-width: 480px) {
+              .slider-label {
+                font-size: 16px;
+              }
+
+              .slider-container {
+                margin: 10px auto;
+              }
+
+              .buttons {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+              }
+
+              .buttons button {
+                width: 80%;
+                margin: 8px 0;
+              }
+            }
+
+            
+           
+  </style>
+
+  <!-- THIS IS THE END OF CSS -->
+</head>
+<body>
+    
+    
+<!--The sounds works on replit, but does not work on Code HS-->
+    
+    
+  <!-- Background Music -->
+  <audio id="backgroundMusic" autoplay loop>
+    <source src="background-music.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <!-- Click Sound Effect -->
+  <audio id="clickSound">
+    <source src="click.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+
+<!--The menu page setup-->
+
+
+
+  <div id="menu" class="wrapper">
+    <div class="waviy">
+        <span style="--i:1">C</span>
+        <span style="--i:2">O</span>
+        <span style="--i:3">L</span>
+        <span style="--i:4">O</span>
+        <span style="--i:5">R</span>
+        <span style="--i:6">&nbsp;</span>
+        <span style="--i:7">G</span>
+        <span style="--i:8">U</span>
+        <span style="--i:9">E</span>
+        <span style="--i:10">S</span>
+        <span style="--i:11">S</span>
+        <span style="--i:12">R</span>
+      </div>
+      
+
+    <div class="menu">
+      <p id="highScore">High Score: 0</p>
+      <div class="buttons">
+        <button class="button-85" onclick="playClickSound(); startGame()">Start Game</button>
+        <button class="button-85" onclick="playClickSound(); showTutorial()">Tutorial</button>
+      </div>
+    </div>
+    <div class="credits">
+      <h3>Credits</h3>
+      <p>Game designed by Ichiro Okochi</p>
+    </div>
+  </div>
+  
+  
+  
+  
+  
+  <!--The main game part-->
+
+  <div id="game" style="display: none;">
+    <button id="backToMenuButton" class="staticR" onclick="playClickSound(); showMenu()"><span class="staticR">Back to Menu</span></button>
+    <div id="guessedColorDisplay" class="hidden" style="margin-top: 20px; height: 100px; width: 100%; background-color: #808080;">
+      <span style="color: white; font-size: 24px;">Your Guess</span>
+    </div>
+    <div id="info">Press 'Start Game' to play.</div>
+
+    <div id="scoreDisplay">Score: 0</div>
+
+    <div id="colorInfo"></div>
+    <div class="slider-container">
+      <label class="slider-label" for="sliderR" style="color:red;">R: <span id="valueR" style="color:red;">128</span></label>
+      <input type="range" id="sliderR" min="0" max="255" value="128" oninput="updateSliderValue('sliderR', 'valueR')">
+    </div>
+    <div class="slider-container">
+      <label class="slider-label" for="sliderG" style="color:green;">G: <span id="valueG" style="color:green;">128</span></label>
+      <input type="range" id="sliderG" min="0" max="255" value="128" oninput="updateSliderValue('sliderG', 'valueG')">
+      <!-- <input type="range" id="sliderG" min="0" max="255" value="128" oninput="updateSliderValue('sliderG', 'valueG')" style="background-color:green;accent-color:green;"> -->
+    </div>
+    <div class="slider-container">
+      <label class="slider-label" for="sliderB" style="color:blue;">B: <span id="valueB" style="blue;">128</span></label>
+      <input type="range" id="sliderB" min="0" max="255" value="128" oninput="updateSliderValue('sliderB', 'valueB')">
+      <!-- <input type="range" id="sliderB" min="0" max="255" value="128" oninput="updateSliderValue('sliderB', 'valueB')" style="background-color: blue; accent-color:blue;"> -->
+    </div>
+    <button id="guessButton" onclick="playClickSound(); guessColor()" class="button-85" role="button">Guess!!</button>
+    <button id="playAgainButton" class="hidden button-85" onclick="playClickSound(); playAgain()">Play Again</button>
+    <button id="menuButton" class="hidden button-85" onclick="playClickSound(); showMenu()">Menu</button>
+    <button id="nextButton" class="hidden button-85" onclick="playClickSound(); nextRound()">Next Round</button>
+  </div>
+
+
+
+<!--The tutorial page-->
+
+  <div id="tutorial" class="hidden">
+    <div class="tutorial-container">
+      <h2 class="waviy">
+        <span style="--i:1">T</span>
+        <span style="--i:2">U</span>
+        <span style="--i:3">T</span>
+        <span style="--i:4">O</span>
+        <span style="--i:5">R</span>
+        <span style="--i:6">I</span>
+        <span style="--i:7">A</span>
+        <span style="--i:8">L</span>
+      </h2>
+
+      <div class="tutorial-step">
+        <h3>🎨 What's the Goal?</h3>
+        <p>Your mission is simple but challenging: Match your guess to the background color!</p>
+      </div>
+
+      <div class="tutorial-step">
+        <h3>🖌️ How to Play:</h3>
+        <ul>
+          <li>Adjust the RGB sliders to pick your color.</li>
+          <li>Hit the <strong>"Guess!!"</strong> button to submit your guess.</li>
+        </ul>
+      </div>
+
+      <div class="tutorial-step">
+        <h3>🏆 Scoring System:</h3>
+        <p>The closer your guess to the actual color, the higher your score! Aim for perfection.</p>
+      </div>
+
+      <div class="tutorial-step">
+        <h3>✨ Rounds & Winning:</h3>
+        <p>Each game has <strong>5 rounds</strong>. Your total score will appear at the end—try to beat your highest score!</p>
+      </div>
+
+      <button class="button-85" onclick="playClickSound(); closeTutorial()">Got It! Let's Play 🚀</button>
+    </div>
+  </div>
+
+  <script>
+        let totalScore = 0;
+        let round = 1;
+        let actualColor;
+        
+        
+        // Uses this generated random colors to make the background color
+        function generateRandomColor() {
+          return {
+            r: Math.floor(Math.random() * 256),
+            g: Math.floor(Math.random() * 256),
+            b: Math.floor(Math.random() * 256)
+          };
+        }
+        
+        
+        // The score is based on the absolute differece between actual and guess, which is then subtracted form 255
+        function calculateScore(actual, guess) {
+          return Math.max(0, 255 - Math.abs(actual.r - guess.r)) +
+            Math.max(0, 255 - Math.abs(actual.g - guess.g)) +
+            Math.max(0, 255 - Math.abs(actual.b - guess.b));
+        }
+        
+        
+        function startGame() {
+          document.getElementById('menu').style.display = 'none';
+          document.getElementById('game').style.display = 'block';
+          totalScore = 0;
+          round = 1;
+          actualColor = generateRandomColor();
+          updateColorDisplay(actualColor);
+          document.getElementById('colorInfo').textContent = '';
+          document.getElementById('scoreDisplay').textContent = `Score: ${totalScore}`;
+          document.getElementById('info').textContent = `Round ${round} of 5. Guess the color on the back.`;
+          document.getElementById('nextButton').classList.add('hidden');
+          document.getElementById('guessButton').classList.remove('hidden');
+          document.getElementById('guessedColorDisplay').classList.add('hidden');
+          resetSliders();
+        }
+        
+        function guessColor() {
+          const r = parseInt(document.getElementById('sliderR').value);
+          const g = parseInt(document.getElementById('sliderG').value);
+          const b = parseInt(document.getElementById('sliderB').value);
+          const guessedColor = { r, g, b };
+          const roundScore = calculateScore(actualColor, guessedColor);
+          totalScore += roundScore;
+          document.getElementById('scoreDisplay').textContent = `Score: ${totalScore}`;
+          document.getElementById('colorInfo').textContent = `Actual color was rgb(${actualColor.r}, ${actualColor.g}, ${actualColor.b}).`;
+          document.getElementById('guessedColorDisplay').style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+          document.getElementById('guessedColorDisplay').classList.remove('hidden');
+          document.getElementById('guessButton').classList.add('hidden');
+          document.getElementById('nextButton').classList.remove('hidden');
+          updateSliderColors(actualColor);
+        }
+        
+        function nextRound() {
+          if (round < 5) {
+            round++;
+            actualColor = generateRandomColor();
+            updateColorDisplay(actualColor);
+            document.getElementById('info').textContent = `Round ${round} of 5. Guess the color shown.`;
+            document.getElementById('colorInfo').textContent = '';
+            document.getElementById('nextButton').classList.add('hidden');
+            document.getElementById('guessButton').classList.remove('hidden');
+            document.getElementById('guessedColorDisplay').classList.add('hidden');
+            resetSliders();
+          } else {
+            document.getElementById('info').textContent = `Game Over! Total score: ${totalScore}`;
+            updateHighScore(totalScore);
+            document.getElementById('nextButton').classList.add('hidden');
+            document.getElementById('playAgainButton').classList.remove('hidden');
+            document.getElementById('menuButton').classList.remove('hidden');
+          }
+        }
+        
+        function playAgain() {
+          document.getElementById('playAgainButton').classList.add('hidden');
+          document.getElementById('menuButton').classList.add('hidden');
+          startGame();
+        }
+        
+        function showMenu() {
+          document.getElementById('game').style.display = 'none';
+          document.getElementById('menu').style.display = 'flex';  // changed from 'block' to 'flex'
+          document.getElementById('playAgainButton').classList.add('hidden');
+          document.getElementById('menuButton').classList.add('hidden');
+          document.getElementById('backToMenuButton').classList.add('hidden');
+          updateHighScoreDisplay();
+        }
+
+        
+        function updateColorDisplay(color) {
+          document.body.style.backgroundColor = `rgb(${color.r}, ${color.g}, ${color.b})`;
+        }
+        
+        function updateSliderValue(sliderId, labelId) {
+          const value = document.getElementById(sliderId).value;
+          document.getElementById(labelId).textContent = value;
+        }
+        
+        function showTutorial() {
+          document.getElementById('tutorial').style.display = 'block';
+          document.getElementById('menu').style.display = 'none';
+        }
+        function closeTutorial() {
+          document.getElementById('tutorial').style.display = 'none';
+          document.getElementById('menu').style.display = 'flex';
+        }
+
+        
+        function getHighScore() {
+          return localStorage.getItem('highScore') || 0;
+        }
+        
+        function setHighScore(score) {
+          localStorage.setItem('highScore', score);
+        }
+        
+        function updateHighScore(score) {
+          const highScore = getHighScore();
+          if (score > highScore) {
+            setHighScore(score);
+          }
+        }
+        
+        function updateHighScoreDisplay() {
+          const highScore = getHighScore();
+          document.getElementById('highScore').textContent = `High Score: ${highScore}`;
+        }
+        
+        function updateSliderColors(color) {
+          document.getElementById('sliderR').style.accentColor = `rgb(${color.r},0,0)`;
+          document.getElementById('sliderG').style.accentColor = `rgb(0,${color.g},0)`;
+          document.getElementById('sliderB').style.accentColor = `rgb(0,0,${color.b})`;
+        }
+        
+        function resetSliders() {
+          const sliders = ['sliderR', 'sliderG', 'sliderB'];
+          sliders.forEach(sliderId => {
+            const slider = document.getElementById(sliderId);
+            slider.value = 128;
+            updateSliderValue(sliderId, `value${sliderId.charAt(sliderId.length - 1)}`);
+            slider.style.accentColor = '';  // reset to default accent color
+          });
+        }
+
+        
+        function playClickSound() {
+          document.getElementById('clickSound').play();
+        }
+        
+        window.onload = function() {
+          updateHighScoreDisplay();
+        };
+  </script>
